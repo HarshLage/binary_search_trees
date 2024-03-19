@@ -1,0 +1,132 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+class Node {
+  public:
+  int data;
+   Node * left;
+   Node * right;
+
+   Node (int val){
+     this->data = val;
+     this->left = NULL;
+     this->right = NULL;
+   }
+};
+Node * BSTfun(Node * root , int data){
+   if(root==NULL){
+     root = new Node(data);
+     return root;
+   }
+
+  //if its not first node
+  if(root->data < data){
+    root->right = BSTfun(root->right,data);
+  }
+  else{
+    root->left = BSTfun(root->left,data);
+  }
+  return root;
+}
+void createBST(Node * &root){
+  cout<<"enter data"<<endl;
+  int data;
+  cin>>data;
+
+  while(data!=-1){
+    root = BSTfun(root,data);
+    cout<<"enter data"<<endl;;
+    cin>>data;
+  }
+  
+}
+void levelorderTraversal(Node * root){
+queue<Node *>q;
+q.push(root);
+q.push(NULL);
+
+while(!q.empty()){
+  Node * front = q.front();
+
+  q.pop();
+
+  if(front == NULL){
+     cout<<endl;
+     if(!q.empty()){
+     q.push(NULL);
+     }
+  }
+  else {
+
+  cout<<front->data<<" ";
+
+  if(front->left!=NULL){
+     q.push(front->left);
+  }
+  if(front->right!=NULL){
+    q.push(front->right);
+
+  }
+  }
+}
+}
+Node * minval(Node * root){
+  
+  if(root==NULL){
+    return NULL;
+  }
+  Node * temp = root;
+
+  while(temp->left!=NULL){
+    temp = temp -> left;
+  }
+  return temp;
+}
+bool isTrue(Node * root , int target){
+  if(root==NULL){
+    return false;
+  }
+  if(root->data==target){
+    return true;
+  }
+
+  bool leftans = false;
+  bool rightans = false;
+  if(target < root->data){
+    leftans = isTrue(root->left,target);
+  }
+  else{
+    rightans = isTrue(root->right,target);
+  }
+  return leftans || rightans;
+}
+int main() {
+  Node * root = NULL;
+  createBST(root);
+    levelorderTraversal(root);
+  Node * min = minval(root);
+  if(min==NULL){
+    cout<<"root is NULL"<<endl;
+  }
+  else{
+    cout<<min->data<<endl;
+  }
+
+  int t;
+  cout<<"enter the target"<<endl;
+  cin>>t;
+  while(t!=-1){
+    bool ans = isTrue(root,t);
+    if(ans==true){
+      cout<<"found"<<endl;
+    }
+    else{
+      cout<<"not found"<<endl;
+    }
+    cout<<"enter the target"<<endl;
+    cin>>t;
+  }
+  
+  //50 30 40 20 60 55 70 80 25
+  
+}
