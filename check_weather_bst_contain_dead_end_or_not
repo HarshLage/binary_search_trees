@@ -1,0 +1,45 @@
+ void inorder(Node * root , unordered_map<int,int>&mp)
+    {
+        if(root == NULL){
+            return;
+        }
+        
+        inorder(root->left , mp);
+        mp[root->data]++;
+        inorder(root->right,mp);
+    }
+    bool  answer(Node * root , unordered_map<int,int>&mp ){
+        if(root == NULL){
+            return false;
+        }
+        if(root->left==NULL && root->right == NULL){
+            if(mp[root->data - 1 ] == 1 && mp[root->data + 1 ]==1 ){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        
+        
+        
+        bool leftside =  answer(root->left , mp);
+        
+        
+       
+        bool rightside = answer(root->right , mp);
+        
+        return leftside || rightside;
+    }
+    bool isDeadEnd(Node *root)
+    {
+        unordered_map<int,int>mp;
+        mp[0]++;
+        inorder(root,mp);
+    
+        bool ans = answer(root,mp);
+        return ans;
+        
+        
+        
+    }
