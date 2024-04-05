@@ -1,0 +1,28 @@
+  void inorder(TreeNode * root , vector<int>&v){
+        if(root==NULL){
+            return;
+        }
+        inorder(root->left,v);
+        v.push_back(root->val);
+        inorder(root->right,v);
+    }
+    int rangeSumBST(TreeNode* root, int low, int high) {
+        vector<int>v;
+        inorder(root,v);
+        int s = 0;
+        int e = 0;
+        for(int i=0;i<v.size();i++){
+            if(v[i]==low){
+                s = i;
+            }
+            if(v[i]==high){
+                e = i;
+            }
+        }
+        int sum = 0;
+        for(int i=s;i<=e;i++){
+            sum+=v[i];
+
+        }
+        return sum;
+    }
